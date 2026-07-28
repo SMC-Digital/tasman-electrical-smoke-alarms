@@ -101,6 +101,8 @@
    yellow urgency accent. Poppins display / Inter body. Mobile-first.
    ===================================================================== */
 :root{
+  /* soft fractal-noise texture used for the drifting smoke layers */
+  --smoke-tex: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='600' height='600'%3E%3Cfilter id='s'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.012' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 1 0 0 0 0'/%3E%3C/filter%3E%3Crect width='600' height='600' filter='url(%23s)'/%3E%3C/svg%3E");
   --te-green:        #22B14C;   /* brand green — the single CTA colour */
   --te-green-dark:   #1A9540;   /* CTA hover */
   --te-green-ink:    #157A34;   /* green text on white (accessible) */
@@ -204,13 +206,6 @@ p{ margin:0; }
 
 /* ---------- Header ---------- */
 .site-header{ position:sticky; top:0; z-index:100; background:var(--te-ink); border-bottom:1px solid rgba(255,255,255,.06); }
-/* Live current sweeping along the bottom of the sticky header — electricity across the page */
-.site-header::after{ content:""; position:absolute; left:0; right:0; bottom:-1px; height:2px; pointer-events:none;
-  background:linear-gradient(90deg, transparent 0 58%, var(--te-green) 70%, #d9ffe6 75%, var(--te-yellow) 80%, transparent 92% 100%);
-  background-size:220% 100%; background-repeat:no-repeat;
-  filter:drop-shadow(0 0 5px rgba(34,177,76,.8)); animation:wireSweep 3.4s linear infinite; }
-@keyframes wireSweep{ from{ background-position:-120% 0; } to{ background-position:220% 0; } }
-@media (prefers-reduced-motion:reduce){ .site-header::after{ animation:none; background:linear-gradient(90deg, transparent, rgba(34,177,76,.5), transparent); } }
 .header__inner{ display:flex; align-items:center; justify-content:space-between; gap:16px; padding:12px 0; }
 /* Electrical conduit framing the logo, with current flowing around it (ENZED-hose style) */
 .brand{ display:inline-flex; align-items:center; }
@@ -254,14 +249,15 @@ p{ margin:0; }
 @media (max-width:420px){ .header .btn span.long{ display:none; } }
 
 /* ---------- Hero ---------- */
-.hero{ position:relative; background:var(--te-ink); color:#fff; overflow:hidden; }
+.hero{ position:relative; isolation:isolate; background:var(--te-ink); color:#fff; overflow:hidden; }
 .hero::before{
-  content:""; position:absolute; inset:0;
+  content:""; position:absolute; inset:0; z-index:0;
   background:
     radial-gradient(1100px 600px at 78% -10%, rgba(34,177,76,.20), transparent 60%),
     linear-gradient(180deg, #0E1A14 0%, #12241B 100%);
 }
-.hero__inner{ position:relative; display:grid; grid-template-columns:1fr; gap:34px; padding-top:44px; padding-bottom:52px; }
+.hero .smoke-layer{ z-index:1; }
+.hero__inner{ position:relative; z-index:2; display:grid; grid-template-columns:1fr; gap:34px; padding-top:44px; padding-bottom:52px; }
 @media (min-width:960px){
   .hero__inner{ grid-template-columns:1.05fr .95fr; gap:48px; align-items:center; padding-top:64px; padding-bottom:72px; }
 }
@@ -325,13 +321,7 @@ p{ margin:0; }
 .form-success p{ margin-top:8px; color:var(--te-muted); font-size:.95rem; }
 
 /* ---------- Deadline strip ---------- */
-.deadline{ position:relative; background:linear-gradient(180deg,#12241B,#0E1A14); color:#fff; border-top:4px solid var(--te-yellow); }
-/* current pulse running along the deadline strip's top edge */
-.deadline::before{ content:""; position:absolute; top:-4px; left:0; right:0; height:4px; pointer-events:none;
-  background:linear-gradient(90deg, transparent 0 55%, #fff 70%, #d9ffe6 78%, transparent 90% 100%);
-  background-size:240% 100%; background-repeat:no-repeat; opacity:.9;
-  filter:drop-shadow(0 0 6px rgba(255,212,0,.8)); animation:wireSweep 2.8s linear infinite; }
-@media (prefers-reduced-motion:reduce){ .deadline::before{ animation:none; display:none; } }
+.deadline{ position:relative; isolation:isolate; background:linear-gradient(180deg,#12241B,#0E1A14); color:#fff; border-top:4px solid var(--te-yellow); }
 .deadline__inner{ display:flex; flex-direction:column; gap:20px; align-items:flex-start; padding-top:40px; padding-bottom:40px; }
 @media (min-width:900px){ .deadline__inner{ flex-direction:row; align-items:center; justify-content:space-between; gap:32px; } }
 .deadline__icon{ display:inline-flex; align-items:center; gap:12px; }
@@ -421,7 +411,7 @@ p{ margin:0; }
 .faq__body{ padding:0 20px 18px; color:var(--te-muted); font-size:.96rem; }
 
 /* ---------- Final CTA ---------- */
-.final{ background:linear-gradient(180deg,#0E1A14,#14261C); color:#fff; }
+.final{ position:relative; isolation:isolate; background:linear-gradient(180deg,#0E1A14,#14261C); color:#fff; }
 .final__grid{ display:grid; grid-template-columns:1fr; gap:34px; align-items:center; }
 @media (min-width:960px){ .final__grid{ grid-template-columns:1fr 1fr; gap:48px; } }
 .final h2{ font-size:clamp(1.7rem,4vw,2.5rem); font-weight:800; }
@@ -429,7 +419,7 @@ p{ margin:0; }
 .final__cta{ display:flex; flex-wrap:wrap; gap:12px; margin-top:26px; }
 
 /* ---------- Footer ---------- */
-.footer{ background:#0A130E; color:#b7c9be; padding:48px 0 120px; }
+.footer{ position:relative; isolation:isolate; background:#0A130E; color:#b7c9be; padding:48px 0 120px; }
 @media (min-width:768px){ .footer{ padding-bottom:56px; } }
 .footer__inner{ display:grid; grid-template-columns:1fr; gap:28px; }
 @media (min-width:768px){ .footer__inner{ grid-template-columns:1.4fr 1fr 1fr; } }
@@ -467,9 +457,33 @@ html.anim .reveal.is-in{ opacity:1; transform:none; }
 @media (max-width:900px){
   html.anim .reveal{ opacity:1 !important; transform:none !important; }
 }
+
+/* ---------- Drifting smoke (smoke-alarm theme) ---------- */
+.smoke-layer{ position:absolute; inset:0; overflow:hidden; pointer-events:none; }
+.smoke-layer i{ position:absolute; inset:-40%; background-image:var(--smoke-tex); background-repeat:repeat;
+  background-size:560px 560px; will-change:background-position; }
+/* smoke over the dark sections — white wisps via screen blend */
+.smoke-layer i:nth-child(1){ mix-blend-mode:screen; opacity:.14; filter:blur(3px); animation:smokeDriftA 60s linear infinite; }
+.smoke-layer i:nth-child(2){ mix-blend-mode:screen; opacity:.09; filter:blur(6px); background-size:820px 820px; animation:smokeDriftB 92s linear infinite; }
+/* dark-section variant sits above the section background, below the content */
+.deadline .smoke-layer, .final .smoke-layer, .footer .smoke-layer{ z-index:-1; }
+@keyframes smokeDriftA{ from{ background-position:0 0; } to{ background-position:560px 280px; } }
+@keyframes smokeDriftB{ from{ background-position:0 0; } to{ background-position:-820px 410px; } }
+
+/* faint site-wide haze so the smoke carries across the light sections too */
+.site-smoke{ position:fixed; inset:0; pointer-events:none; z-index:70; }
+.site-smoke i{ position:absolute; inset:-40%; background-image:var(--smoke-tex); background-repeat:repeat;
+  background-size:680px 680px; mix-blend-mode:soft-light; opacity:.05; will-change:background-position;
+  animation:smokeDriftA 110s linear infinite; }
+@media (prefers-reduced-motion:reduce){
+  .smoke-layer i, .site-smoke i{ animation:none !important; }
+}
+/* mobile: keep the dark-section smoke, drop the extra full-screen layer for battery */
+@media (max-width:768px){ .site-smoke{ display:none; } }
 </style>
 </head>
 <body>
+<div class="site-smoke" aria-hidden="true"><i></i></div>
 
 <!-- GTM noscript (placeholder container) -->
 <!-- <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-XXXXXXX" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript> -->
@@ -529,6 +543,7 @@ html.anim .reveal.is-in{ opacity:1; transform:none; }
 
 <!-- ============================ 3. HERO + 4. QUOTE FORM ============================ -->
 <section class="hero" id="top">
+  <div class="smoke-layer" aria-hidden="true"><i></i><i></i></div>
   <div class="container">
     <div class="hero__inner">
       <div class="hero__copy">
@@ -634,6 +649,7 @@ html.anim .reveal.is-in{ opacity:1; transform:none; }
 
 <!-- ============================ 5. DEADLINE STRIP ============================ -->
 <section class="deadline" id="deadline">
+  <div class="smoke-layer" aria-hidden="true"><i></i><i></i></div>
   <div class="container">
     <div class="deadline__inner">
       <div>
@@ -860,6 +876,7 @@ html.anim .reveal.is-in{ opacity:1; transform:none; }
 
 <!-- ============================ 15. FINAL CTA ============================ -->
 <section class="section final" id="quote">
+  <div class="smoke-layer" aria-hidden="true"><i></i><i></i></div>
   <div class="container">
     <div class="final__grid">
       <div class="reveal">
@@ -943,6 +960,7 @@ html.anim .reveal.is-in{ opacity:1; transform:none; }
 
 <!-- ============================ 16. FOOTER ============================ -->
 <footer class="footer">
+  <div class="smoke-layer" aria-hidden="true"><i></i><i></i></div>
   <div class="container">
     <div class="footer__inner">
       <div>
