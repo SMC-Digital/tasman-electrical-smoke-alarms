@@ -22,7 +22,7 @@
 <meta property="og:url" content="https://www.tasmanelectrical.com.au/smoke-alarm-installation-brisbane" />
 <meta property="og:title" content="Smoke Alarm Installation Brisbane | Tasman Electrical" />
 <meta property="og:description" content="Get your Brisbane home ready for Queensland's 2027 smoke alarm deadline. Tasman Electrical installs and replaces interconnected photoelectric smoke alarms. Request a quote." />
-<meta property="og:image" content="https://www.tasmanelectrical.com.au/smoke-alarm-installation-brisbane/assets/images/smoke-alarm-test.jpg" />
+<meta property="og:image" content="https://www.tasmanelectrical.com.au/smoke-alarm-installation-brisbane/assets/images/hero-smoke-alarm.jpg" />
 <meta name="twitter:card" content="summary_large_image" />
 <meta name="twitter:title" content="Smoke Alarm Installation Brisbane | Tasman Electrical" />
 <meta name="twitter:description" content="Get your Brisbane home ready for Queensland's 2027 smoke alarm deadline. Interconnected photoelectric smoke alarms installed by licensed Brisbane electricians." />
@@ -44,7 +44,7 @@
   "url": "https://www.tasmanelectrical.com.au/smoke-alarm-installation-brisbane",
   "telephone": "+61424134830",
   "email": "tasmanelectrical@outlook.com",
-  "image": "https://www.tasmanelectrical.com.au/smoke-alarm-installation-brisbane/assets/images/smoke-alarm-test.jpg",
+  "image": "https://www.tasmanelectrical.com.au/smoke-alarm-installation-brisbane/assets/images/hero-smoke-alarm.jpg",
   "priceRange": "$$",
   "slogan": "Your Local Electrical Experts",
   "areaServed": [
@@ -204,6 +204,13 @@ p{ margin:0; }
 
 /* ---------- Header ---------- */
 .site-header{ position:sticky; top:0; z-index:100; background:var(--te-ink); border-bottom:1px solid rgba(255,255,255,.06); }
+/* Live current sweeping along the bottom of the sticky header — electricity across the page */
+.site-header::after{ content:""; position:absolute; left:0; right:0; bottom:-1px; height:2px; pointer-events:none;
+  background:linear-gradient(90deg, transparent 0 58%, var(--te-green) 70%, #d9ffe6 75%, var(--te-yellow) 80%, transparent 92% 100%);
+  background-size:220% 100%; background-repeat:no-repeat;
+  filter:drop-shadow(0 0 5px rgba(34,177,76,.8)); animation:wireSweep 3.4s linear infinite; }
+@keyframes wireSweep{ from{ background-position:-120% 0; } to{ background-position:220% 0; } }
+@media (prefers-reduced-motion:reduce){ .site-header::after{ animation:none; background:linear-gradient(90deg, transparent, rgba(34,177,76,.5), transparent); } }
 .header__inner{ display:flex; align-items:center; justify-content:space-between; gap:16px; padding:12px 0; }
 /* Electrical conduit framing the logo, with current flowing around it (ENZED-hose style) */
 .brand{ display:inline-flex; align-items:center; }
@@ -266,7 +273,7 @@ p{ margin:0; }
 .hero__trust svg{ width:16px; height:16px; color:var(--te-green); }
 .hero__cta{ display:flex; flex-wrap:wrap; gap:12px; margin-top:28px; }
 .hero__media{ position:relative; margin-top:10px; }
-.hero__media img{ width:100%; height:100%; object-fit:cover; border-radius:var(--radius-lg); box-shadow:0 24px 60px rgba(0,0,0,.4); aspect-ratio:16/11; }
+.hero__media img{ width:100%; height:100%; object-fit:cover; object-position:center 30%; border-radius:var(--radius-lg); box-shadow:0 24px 60px rgba(0,0,0,.4); aspect-ratio:16/11; }
 .hero__badge{
   position:absolute; left:14px; bottom:14px; background:rgba(14,26,20,.86); backdrop-filter:blur(4px);
   border:1px solid rgba(255,255,255,.14); border-radius:var(--radius); padding:12px 16px; display:flex; align-items:center; gap:11px;
@@ -318,7 +325,13 @@ p{ margin:0; }
 .form-success p{ margin-top:8px; color:var(--te-muted); font-size:.95rem; }
 
 /* ---------- Deadline strip ---------- */
-.deadline{ background:linear-gradient(180deg,#12241B,#0E1A14); color:#fff; border-top:4px solid var(--te-yellow); }
+.deadline{ position:relative; background:linear-gradient(180deg,#12241B,#0E1A14); color:#fff; border-top:4px solid var(--te-yellow); }
+/* current pulse running along the deadline strip's top edge */
+.deadline::before{ content:""; position:absolute; top:-4px; left:0; right:0; height:4px; pointer-events:none;
+  background:linear-gradient(90deg, transparent 0 55%, #fff 70%, #d9ffe6 78%, transparent 90% 100%);
+  background-size:240% 100%; background-repeat:no-repeat; opacity:.9;
+  filter:drop-shadow(0 0 6px rgba(255,212,0,.8)); animation:wireSweep 2.8s linear infinite; }
+@media (prefers-reduced-motion:reduce){ .deadline::before{ animation:none; display:none; } }
 .deadline__inner{ display:flex; flex-direction:column; gap:20px; align-items:flex-start; padding-top:40px; padding-bottom:40px; }
 @media (min-width:900px){ .deadline__inner{ flex-direction:row; align-items:center; justify-content:space-between; gap:32px; } }
 .deadline__icon{ display:inline-flex; align-items:center; gap:12px; }
@@ -535,7 +548,7 @@ html.anim .reveal.is-in{ opacity:1; transform:none; }
           </a>
         </div>
         <div class="hero__media" style="margin-top:28px;">
-          <img src="assets/images/hero-electrician.jpg" alt="Licensed Tasman Electrical electrician working on a residential switchboard in Brisbane" width="1600" height="1000" fetchpriority="high" />
+          <img src="assets/images/hero-smoke-alarm.jpg" alt="Licensed Tasman Electrical technician in hi-vis checking a smoke alarm on a ceiling in a Brisbane property" width="1300" height="1300" fetchpriority="high" />
           <div class="hero__badge">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 2 4 5v6c0 5 3.4 8.5 8 10 4.6-1.5 8-5 8-10V5l-8-3Z"/><path d="M9 12l2 2 4-4"/></svg>
             <div><b>Licensed &amp; insured</b><span>Licence #83289</span></div>
@@ -747,7 +760,7 @@ html.anim .reveal.is-in{ opacity:1; transform:none; }
   <div class="container">
     <div class="why__grid">
       <div class="why__media reveal">
-        <img src="assets/images/smoke-alarm-test.jpg" alt="Licensed electrician installing a photoelectric smoke alarm on a ceiling" width="1200" height="800" loading="lazy" />
+        <img src="assets/images/smoke-alarm-install.jpg" alt="Licensed electrician installing a photoelectric smoke alarm on a ceiling" width="1100" height="1100" loading="lazy" />
       </div>
       <div class="reveal">
         <h2 style="font-size:clamp(1.7rem,4vw,2.4rem);font-weight:800;color:var(--te-ink);margin-top:10px;">Why Brisbane Homeowners Choose Tasman Electrical</h2>
