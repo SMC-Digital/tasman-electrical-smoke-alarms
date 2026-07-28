@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+Disallow: /thank-you.html
+
+Sitemap: https://www.tasmanelectrical.com.au/smoke-alarm-installation-brisbane/sitemap.xml
