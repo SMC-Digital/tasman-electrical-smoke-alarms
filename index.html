@@ -102,7 +102,7 @@
    ===================================================================== */
 :root{
   /* soft fractal-noise texture used for the drifting smoke layers */
-  --smoke-tex: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='600' height='600'%3E%3Cfilter id='s'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.012' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 1 0 0 0 0'/%3E%3C/filter%3E%3Crect width='600' height='600' filter='url(%23s)'/%3E%3C/svg%3E");
+  --smoke-tex: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='900' height='900'%3E%3Cfilter id='s' x='-20%25' y='-20%25' width='140%25' height='140%25'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.009' numOctaves='2' seed='4' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 1 0 0 0 0'/%3E%3CfeGaussianBlur stdDeviation='4'/%3E%3C/filter%3E%3Crect width='900' height='900' filter='url(%23s)'/%3E%3C/svg%3E");
   --te-green:        #22B14C;   /* brand green — the single CTA colour */
   --te-green-dark:   #1A9540;   /* CTA hover */
   --te-green-ink:    #157A34;   /* green text on white (accessible) */
@@ -458,32 +458,21 @@ html.anim .reveal.is-in{ opacity:1; transform:none; }
   html.anim .reveal{ opacity:1 !important; transform:none !important; }
 }
 
-/* ---------- Drifting smoke (smoke-alarm theme) ---------- */
-.smoke-layer{ position:absolute; inset:0; overflow:hidden; pointer-events:none; }
-.smoke-layer i{ position:absolute; inset:-40%; background-image:var(--smoke-tex); background-repeat:repeat;
-  background-size:560px 560px; will-change:background-position; }
-/* smoke over the dark sections — white wisps via screen blend */
-.smoke-layer i:nth-child(1){ mix-blend-mode:screen; opacity:.14; filter:blur(3px); animation:smokeDriftA 60s linear infinite; }
-.smoke-layer i:nth-child(2){ mix-blend-mode:screen; opacity:.09; filter:blur(6px); background-size:820px 820px; animation:smokeDriftB 92s linear infinite; }
-/* dark-section variant sits above the section background, below the content */
+/* ---------- Drifting smoke (smoke-alarm theme) ----------
+   GPU-only: pre-softened texture moved with transform (no per-frame repaint,
+   no blur/blend animation), so it stays smooth. */
+.smoke-layer{ position:absolute; inset:0; overflow:hidden; pointer-events:none; contain:strict; }
 .deadline .smoke-layer, .final .smoke-layer, .footer .smoke-layer{ z-index:-1; }
-@keyframes smokeDriftA{ from{ background-position:0 0; } to{ background-position:560px 280px; } }
-@keyframes smokeDriftB{ from{ background-position:0 0; } to{ background-position:-820px 410px; } }
-
-/* faint site-wide haze so the smoke carries across the light sections too */
-.site-smoke{ position:fixed; inset:0; pointer-events:none; z-index:70; }
-.site-smoke i{ position:absolute; inset:-40%; background-image:var(--smoke-tex); background-repeat:repeat;
-  background-size:680px 680px; mix-blend-mode:soft-light; opacity:.05; will-change:background-position;
-  animation:smokeDriftA 110s linear infinite; }
-@media (prefers-reduced-motion:reduce){
-  .smoke-layer i, .site-smoke i{ animation:none !important; }
-}
-/* mobile: keep the dark-section smoke, drop the extra full-screen layer for battery */
-@media (max-width:768px){ .site-smoke{ display:none; } }
+.smoke-layer i{ position:absolute; inset:-25%; background:var(--smoke-tex) center/cover no-repeat;
+  transform:translateZ(0); will-change:transform; backface-visibility:hidden; }
+.smoke-layer i:nth-child(1){ opacity:.13; animation:smokeA 42s ease-in-out infinite alternate; }
+.smoke-layer i:nth-child(2){ opacity:.08; animation:smokeB 63s ease-in-out infinite alternate; }
+@keyframes smokeA{ from{ transform:translate3d(-3%,1%,0) scale(1.06);} to{ transform:translate3d(4%,-2%,0) scale(1.16);} }
+@keyframes smokeB{ from{ transform:translate3d(3%,-1%,0) scale(1.12);} to{ transform:translate3d(-4%,2%,0) scale(1.02);} }
+@media (prefers-reduced-motion:reduce){ .smoke-layer i{ animation:none !important; } }
 </style>
 </head>
 <body>
-<div class="site-smoke" aria-hidden="true"><i></i></div>
 
 <!-- GTM noscript (placeholder container) -->
 <!-- <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-XXXXXXX" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript> -->
