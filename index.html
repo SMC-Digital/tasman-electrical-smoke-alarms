@@ -205,48 +205,30 @@ p{ margin:0; }
 /* ---------- Header ---------- */
 .site-header{ position:sticky; top:0; z-index:100; background:var(--te-ink); border-bottom:1px solid rgba(255,255,255,.06); }
 .header__inner{ display:flex; align-items:center; justify-content:space-between; gap:16px; padding:12px 0; }
-/* Electric bolt travelling around the logo — main bolt + fast chasing spark, brand colours */
-@property --te-a{ syntax:"<angle>"; inherits:false; initial-value:0deg; }
-@property --te-b{ syntax:"<angle>"; inherits:false; initial-value:120deg; }
+/* Electrical conduit framing the logo, with current flowing around it (ENZED-hose style) */
 .brand{ display:inline-flex; align-items:center; }
-.logo-elec{ position:relative; display:inline-flex; align-items:center; padding:6px 12px; border-radius:12px; isolation:isolate; }
-.logo-elec > img{ position:relative; z-index:1; animation:elecFlick .32s steps(1,end) infinite; }
-.brand .logo-elec > img{ height:40px; width:auto; }
-@media (min-width:768px){ .brand .logo-elec > img{ height:50px; } }
-@media (max-width:600px){ .brand .logo-elec > img{ height:38px; } }
-/* two sparks (main + faster chaser) ride the border; ::after is the glow halo */
-.logo-elec::before, .logo-elec::after{
-  content:""; position:absolute; inset:0; border-radius:inherit; padding:2px; pointer-events:none;
-  background:
-    conic-gradient(from var(--te-b),
-      transparent 0deg 332deg, #d9ffe6 344deg, #a8f5c0 351deg, transparent 357deg),
-    conic-gradient(from var(--te-a),
-      transparent 0deg 302deg,
-      var(--te-green) 316deg, #7fe3a0 332deg, var(--te-yellow) 344deg, #eafff2 351deg, transparent 357deg);
-  -webkit-mask:linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
-  -webkit-mask-composite:xor; mask-composite:exclude;
-  animation:elecSpin 1.5s linear infinite, elecSpin2 .82s linear infinite, elecBuzz .26s steps(1,end) infinite;
-}
-.logo-elec::after{ filter:blur(9px) saturate(1.5); opacity:.95; }   /* stronger glow halo */
-@keyframes elecSpin{ to{ --te-a:360deg; } }
-@keyframes elecSpin2{ to{ --te-b:480deg; } }
-/* harsh, irregular crackle — reads as live current arcing */
-@keyframes elecBuzz{
-  0%{opacity:1}    6%{opacity:.35} 9%{opacity:1}   15%{opacity:.6}
-  18%{opacity:1}   26%{opacity:.25}30%{opacity:1}  44%{opacity:.7}
-  48%{opacity:1}   58%{opacity:.4} 62%{opacity:1}  74%{opacity:.85}
-  80%{opacity:.3}  84%{opacity:1}  92%{opacity:.7} 100%{opacity:1}
-}
-/* faint electric shimmer on the logo itself, in sync with the crackle */
-@keyframes elecFlick{
-  0%,100%{ filter:drop-shadow(0 0 2px rgba(127,227,160,.45)); }
-  30%    { filter:drop-shadow(0 0 5px rgba(168,245,192,.85)); }
-  55%    { filter:drop-shadow(0 0 1px rgba(127,227,160,.3)); }
-  80%    { filter:drop-shadow(0 0 6px rgba(255,212,0,.5)); }
-}
+.logo-elec{ position:relative; display:inline-flex; align-items:center; padding:9px 17px; isolation:isolate; }
+.logo-elec > img{ position:relative; z-index:1; }
+.brand .logo-elec > img{ height:38px; width:auto; }
+@media (min-width:768px){ .brand .logo-elec > img{ height:48px; } }
+@media (max-width:600px){ .brand .logo-elec > img{ height:34px; } }
+
+/* the SVG frame sits on the padding-box edge and wraps the wordmark like a cable */
+.elec-frame{ position:absolute; inset:0; width:100%; height:100%; overflow:visible; pointer-events:none; z-index:0; }
+.elec-frame rect{ fill:none; }
+/* the cable body — always visible, a dim conductor */
+.wire-base{ stroke:rgba(127,227,160,.30); stroke-width:2; }
+/* the current flowing through it — a bright pulse that loops the wire */
+.wire-current{ stroke:var(--te-green); stroke-width:2.6; stroke-linecap:round; stroke-dasharray:22 78;
+  filter:drop-shadow(0 0 3px var(--te-green)) drop-shadow(0 0 6px #7fe3a0); animation:elecFlow 2.4s linear infinite; }
+/* a faster, hotter spark chasing the current */
+.wire-spark{ stroke:#eafff2; stroke-width:2.4; stroke-linecap:round; stroke-dasharray:5 95;
+  filter:drop-shadow(0 0 4px var(--te-yellow)) drop-shadow(0 0 8px #7fe3a0); animation:elecFlow 1.15s linear infinite; }
+@keyframes elecFlow{ to{ stroke-dashoffset:-100; } }   /* pathLength=100 → one full lap per cycle */
 @media (prefers-reduced-motion:reduce){
-  .logo-elec::before, .logo-elec::after{ animation:none; opacity:.9; }
-  .logo-elec > img{ animation:none; filter:drop-shadow(0 0 3px rgba(34,177,76,.6)); }
+  .wire-current, .wire-spark{ animation:none; }
+  .wire-current{ stroke-dasharray:none; opacity:.55; }
+  .wire-spark{ display:none; }
 }
 .header__actions{ display:flex; align-items:center; gap:14px; }
 .header__phone{ display:none; font-family:var(--font-display); font-weight:700; color:#fff; align-items:center; gap:8px; }
@@ -431,7 +413,7 @@ p{ margin:0; }
 @media (min-width:768px){ .footer{ padding-bottom:56px; } }
 .footer__inner{ display:grid; grid-template-columns:1fr; gap:28px; }
 @media (min-width:768px){ .footer__inner{ grid-template-columns:1.4fr 1fr 1fr; } }
-.footer .logo-elec{ margin:0 0 14px -12px; }   /* offset the bolt padding so the logo still aligns with the text */
+.footer .logo-elec{ margin:0 0 14px -17px; }   /* offset the frame padding so the logo still aligns with the text */
 .footer img{ height:52px; width:auto; }
 .footer__tag{ font-family:var(--font-display); font-weight:600; color:#dfeee6; }
 .footer p{ font-size:.9rem; line-height:1.7; margin-top:8px; }
@@ -505,7 +487,14 @@ html.anim .reveal.is-in{ opacity:1; transform:none; }
   <div class="container">
     <div class="header__inner">
       <a class="brand" href="#top" aria-label="Tasman Electrical home">
-        <span class="logo-elec"><img src="assets/images/logo.png" alt="Tasman Electrical logo" width="600" height="295" fetchpriority="high" /></span>
+        <span class="logo-elec">
+          <svg class="elec-frame" preserveAspectRatio="none" aria-hidden="true">
+            <rect class="wire-base"    x="0" y="0" width="100%" height="100%" rx="15" pathLength="100"/>
+            <rect class="wire-current" x="0" y="0" width="100%" height="100%" rx="15" pathLength="100"/>
+            <rect class="wire-spark"   x="0" y="0" width="100%" height="100%" rx="15" pathLength="100"/>
+          </svg>
+          <img src="assets/images/logo.png" alt="Tasman Electrical logo" width="600" height="295" fetchpriority="high" />
+        </span>
       </a>
       <div class="header__actions">
         <a class="header__phone" href="tel:0424134830" data-track="phone_click" data-loc="header">
@@ -937,7 +926,14 @@ html.anim .reveal.is-in{ opacity:1; transform:none; }
   <div class="container">
     <div class="footer__inner">
       <div>
-        <span class="logo-elec"><img src="assets/images/logo.png" alt="Tasman Electrical logo" width="600" height="295" loading="lazy" /></span>
+        <span class="logo-elec">
+          <svg class="elec-frame" preserveAspectRatio="none" aria-hidden="true">
+            <rect class="wire-base"    x="0" y="0" width="100%" height="100%" rx="15" pathLength="100"/>
+            <rect class="wire-current" x="0" y="0" width="100%" height="100%" rx="15" pathLength="100"/>
+            <rect class="wire-spark"   x="0" y="0" width="100%" height="100%" rx="15" pathLength="100"/>
+          </svg>
+          <img src="assets/images/logo.png" alt="Tasman Electrical logo" width="600" height="295" loading="lazy" />
+        </span>
         <p class="footer__tag">Your Local Electrical Experts</p>
         <p>More than 10 years servicing South East Queensland with qualified, licensed and insured electricians. North Brisbane to the Gold Coast.</p>
       </div>
