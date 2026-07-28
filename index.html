@@ -205,32 +205,34 @@ p{ margin:0; }
 /* ---------- Header ---------- */
 .site-header{ position:sticky; top:0; z-index:100; background:var(--te-ink); border-bottom:1px solid rgba(255,255,255,.06); }
 .header__inner{ display:flex; align-items:center; justify-content:space-between; gap:16px; padding:12px 0; }
-/* Electrified glow around the logo edges (follows the letterforms, no track) */
+/* Electric bolt travelling around the logo (brand colours, single bolt, no rail) */
+@property --te-a{ syntax:"<angle>"; inherits:false; initial-value:0deg; }
 .brand{ display:inline-flex; align-items:center; }
-.brand img{
-  height:40px; width:auto;
-  filter:drop-shadow(0 0 2px rgba(34,177,76,.95)) drop-shadow(0 0 6px rgba(127,227,160,.7)) drop-shadow(0 0 12px rgba(255,212,0,.35));
-  animation:brandElec 1.9s linear infinite;
-  will-change:filter;
+.logo-elec{ position:relative; display:inline-flex; align-items:center; padding:6px 12px; border-radius:12px; isolation:isolate; }
+.logo-elec > img{ position:relative; z-index:1; }
+.brand .logo-elec > img{ height:40px; width:auto; }
+@media (min-width:768px){ .brand .logo-elec > img{ height:50px; } }
+@media (max-width:600px){ .brand .logo-elec > img{ height:38px; } }
+/* the bolt (::before) + its glow halo (::after) travel round the border */
+.logo-elec::before, .logo-elec::after{
+  content:""; position:absolute; inset:0; border-radius:inherit; padding:2px; pointer-events:none;
+  background:conic-gradient(from var(--te-a),
+    transparent 0deg 300deg,
+    var(--te-green) 318deg, #7fe3a0 334deg, var(--te-yellow) 346deg, #a8f5c0 352deg, transparent 358deg);
+  -webkit-mask:linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite:xor; mask-composite:exclude;
+  animation:elecSpin 2.1s linear infinite, elecBuzz .5s steps(1,end) infinite;
 }
-@media (min-width:768px){ .brand img{ height:50px; } }
-/* irregular electric crackle around the edges, brand green + yellow */
-@keyframes brandElec{
-  0%   { filter:drop-shadow(0 0 2px rgba(34,177,76,.95)) drop-shadow(0 0 6px rgba(127,227,160,.65)) drop-shadow(0 0 12px rgba(255,212,0,.32)); }
-  12%  { filter:drop-shadow(0 0 1px rgba(34,177,76,.7))  drop-shadow(0 0 3px rgba(127,227,160,.4))  drop-shadow(0 0 7px rgba(255,212,0,.2)); }
-  18%  { filter:drop-shadow(0 0 3px rgba(127,227,160,1)) drop-shadow(0 0 9px rgba(34,177,76,.85))   drop-shadow(0 0 18px rgba(255,212,0,.5)); }
-  30%  { filter:drop-shadow(0 0 2px rgba(34,177,76,.9))  drop-shadow(0 0 6px rgba(127,227,160,.6))  drop-shadow(0 0 12px rgba(255,212,0,.3)); }
-  40%  { filter:drop-shadow(0 0 1px rgba(34,177,76,.6))  drop-shadow(0 0 3px rgba(127,227,160,.35)) drop-shadow(0 0 6px rgba(255,212,0,.18)); }
-  52%  { filter:drop-shadow(0 0 3px rgba(255,212,0,.8))  drop-shadow(0 0 9px rgba(127,227,160,.8))  drop-shadow(0 0 17px rgba(34,177,76,.55)); }
-  68%  { filter:drop-shadow(0 0 2px rgba(34,177,76,.9))  drop-shadow(0 0 6px rgba(127,227,160,.6))  drop-shadow(0 0 12px rgba(255,212,0,.32)); }
-  80%  { filter:drop-shadow(0 0 1px rgba(34,177,76,.65)) drop-shadow(0 0 4px rgba(127,227,160,.4))  drop-shadow(0 0 8px rgba(255,212,0,.22)); }
-  88%  { filter:drop-shadow(0 0 3px rgba(127,227,160,.95))drop-shadow(0 0 10px rgba(34,177,76,.8))  drop-shadow(0 0 18px rgba(255,212,0,.5)); }
-  100% { filter:drop-shadow(0 0 2px rgba(34,177,76,.95)) drop-shadow(0 0 6px rgba(127,227,160,.65)) drop-shadow(0 0 12px rgba(255,212,0,.32)); }
+.logo-elec::after{ filter:blur(6px) saturate(1.25); opacity:.85; }   /* glow halo */
+@keyframes elecSpin{ to{ --te-a:360deg; } }
+/* irregular crackle so the bolt reads as live current */
+@keyframes elecBuzz{
+  0%{opacity:1}   9%{opacity:.55} 12%{opacity:1}  27%{opacity:.8}
+  32%{opacity:.4} 35%{opacity:1}  55%{opacity:.7} 60%{opacity:1}
+  76%{opacity:.5} 80%{opacity:1}  100%{opacity:1}
 }
-/* Mobile: lighter glow radius for performance + fit */
-@media (max-width:600px){ .brand img{ height:38px; } }
 @media (prefers-reduced-motion:reduce){
-  .brand img, .footer img{ animation:none; filter:drop-shadow(0 0 3px rgba(34,177,76,.85)) drop-shadow(0 0 8px rgba(255,212,0,.3)); }
+  .logo-elec::before, .logo-elec::after{ animation:none; opacity:.9; }
 }
 .header__actions{ display:flex; align-items:center; gap:14px; }
 .header__phone{ display:none; font-family:var(--font-display); font-weight:700; color:#fff; align-items:center; gap:8px; }
@@ -415,9 +417,8 @@ p{ margin:0; }
 @media (min-width:768px){ .footer{ padding-bottom:56px; } }
 .footer__inner{ display:grid; grid-template-columns:1fr; gap:28px; }
 @media (min-width:768px){ .footer__inner{ grid-template-columns:1.4fr 1fr 1fr; } }
-.footer img{ height:52px; width:auto; margin-bottom:14px;
-  filter:drop-shadow(0 0 2px rgba(34,177,76,.95)) drop-shadow(0 0 6px rgba(127,227,160,.7)) drop-shadow(0 0 12px rgba(255,212,0,.35));
-  animation:brandElec 1.9s linear infinite; will-change:filter; }
+.footer .logo-elec{ margin:0 0 14px -12px; }   /* offset the bolt padding so the logo still aligns with the text */
+.footer img{ height:52px; width:auto; }
 .footer__tag{ font-family:var(--font-display); font-weight:600; color:#dfeee6; }
 .footer p{ font-size:.9rem; line-height:1.7; margin-top:8px; }
 .footer h4{ font-family:var(--font-display); color:#fff; font-size:.95rem; margin-bottom:12px; text-transform:uppercase; letter-spacing:.06em; }
@@ -490,7 +491,7 @@ html.anim .reveal.is-in{ opacity:1; transform:none; }
   <div class="container">
     <div class="header__inner">
       <a class="brand" href="#top" aria-label="Tasman Electrical home">
-        <img src="assets/images/logo.png" alt="Tasman Electrical logo" width="600" height="295" fetchpriority="high" />
+        <span class="logo-elec"><img src="assets/images/logo.png" alt="Tasman Electrical logo" width="600" height="295" fetchpriority="high" /></span>
       </a>
       <div class="header__actions">
         <a class="header__phone" href="tel:0424134830" data-track="phone_click" data-loc="header">
@@ -922,7 +923,7 @@ html.anim .reveal.is-in{ opacity:1; transform:none; }
   <div class="container">
     <div class="footer__inner">
       <div>
-        <img src="assets/images/logo.png" alt="Tasman Electrical logo" width="600" height="295" loading="lazy" />
+        <span class="logo-elec"><img src="assets/images/logo.png" alt="Tasman Electrical logo" width="600" height="295" loading="lazy" /></span>
         <p class="footer__tag">Your Local Electrical Experts</p>
         <p>More than 10 years servicing South East Queensland with qualified, licensed and insured electricians. North Brisbane to the Gold Coast.</p>
       </div>
