@@ -205,34 +205,48 @@ p{ margin:0; }
 /* ---------- Header ---------- */
 .site-header{ position:sticky; top:0; z-index:100; background:var(--te-ink); border-bottom:1px solid rgba(255,255,255,.06); }
 .header__inner{ display:flex; align-items:center; justify-content:space-between; gap:16px; padding:12px 0; }
-/* Electric bolt travelling around the logo (brand colours, single bolt, no rail) */
+/* Electric bolt travelling around the logo — main bolt + fast chasing spark, brand colours */
 @property --te-a{ syntax:"<angle>"; inherits:false; initial-value:0deg; }
+@property --te-b{ syntax:"<angle>"; inherits:false; initial-value:120deg; }
 .brand{ display:inline-flex; align-items:center; }
 .logo-elec{ position:relative; display:inline-flex; align-items:center; padding:6px 12px; border-radius:12px; isolation:isolate; }
-.logo-elec > img{ position:relative; z-index:1; }
+.logo-elec > img{ position:relative; z-index:1; animation:elecFlick .32s steps(1,end) infinite; }
 .brand .logo-elec > img{ height:40px; width:auto; }
 @media (min-width:768px){ .brand .logo-elec > img{ height:50px; } }
 @media (max-width:600px){ .brand .logo-elec > img{ height:38px; } }
-/* the bolt (::before) + its glow halo (::after) travel round the border */
+/* two sparks (main + faster chaser) ride the border; ::after is the glow halo */
 .logo-elec::before, .logo-elec::after{
   content:""; position:absolute; inset:0; border-radius:inherit; padding:2px; pointer-events:none;
-  background:conic-gradient(from var(--te-a),
-    transparent 0deg 300deg,
-    var(--te-green) 318deg, #7fe3a0 334deg, var(--te-yellow) 346deg, #a8f5c0 352deg, transparent 358deg);
+  background:
+    conic-gradient(from var(--te-b),
+      transparent 0deg 332deg, #d9ffe6 344deg, #a8f5c0 351deg, transparent 357deg),
+    conic-gradient(from var(--te-a),
+      transparent 0deg 302deg,
+      var(--te-green) 316deg, #7fe3a0 332deg, var(--te-yellow) 344deg, #eafff2 351deg, transparent 357deg);
   -webkit-mask:linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
   -webkit-mask-composite:xor; mask-composite:exclude;
-  animation:elecSpin 2.1s linear infinite, elecBuzz .5s steps(1,end) infinite;
+  animation:elecSpin 1.5s linear infinite, elecSpin2 .82s linear infinite, elecBuzz .26s steps(1,end) infinite;
 }
-.logo-elec::after{ filter:blur(6px) saturate(1.25); opacity:.85; }   /* glow halo */
+.logo-elec::after{ filter:blur(9px) saturate(1.5); opacity:.95; }   /* stronger glow halo */
 @keyframes elecSpin{ to{ --te-a:360deg; } }
-/* irregular crackle so the bolt reads as live current */
+@keyframes elecSpin2{ to{ --te-b:480deg; } }
+/* harsh, irregular crackle — reads as live current arcing */
 @keyframes elecBuzz{
-  0%{opacity:1}   9%{opacity:.55} 12%{opacity:1}  27%{opacity:.8}
-  32%{opacity:.4} 35%{opacity:1}  55%{opacity:.7} 60%{opacity:1}
-  76%{opacity:.5} 80%{opacity:1}  100%{opacity:1}
+  0%{opacity:1}    6%{opacity:.35} 9%{opacity:1}   15%{opacity:.6}
+  18%{opacity:1}   26%{opacity:.25}30%{opacity:1}  44%{opacity:.7}
+  48%{opacity:1}   58%{opacity:.4} 62%{opacity:1}  74%{opacity:.85}
+  80%{opacity:.3}  84%{opacity:1}  92%{opacity:.7} 100%{opacity:1}
+}
+/* faint electric shimmer on the logo itself, in sync with the crackle */
+@keyframes elecFlick{
+  0%,100%{ filter:drop-shadow(0 0 2px rgba(127,227,160,.45)); }
+  30%    { filter:drop-shadow(0 0 5px rgba(168,245,192,.85)); }
+  55%    { filter:drop-shadow(0 0 1px rgba(127,227,160,.3)); }
+  80%    { filter:drop-shadow(0 0 6px rgba(255,212,0,.5)); }
 }
 @media (prefers-reduced-motion:reduce){
   .logo-elec::before, .logo-elec::after{ animation:none; opacity:.9; }
+  .logo-elec > img{ animation:none; filter:drop-shadow(0 0 3px rgba(34,177,76,.6)); }
 }
 .header__actions{ display:flex; align-items:center; gap:14px; }
 .header__phone{ display:none; font-family:var(--font-display); font-weight:700; color:#fff; align-items:center; gap:8px; }
