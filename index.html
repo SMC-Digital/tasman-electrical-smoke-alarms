@@ -102,7 +102,6 @@
    ===================================================================== */
 :root{
   /* soft fractal-noise texture used for the drifting smoke layers */
-  --smoke-tex: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='900' height='900'%3E%3Cfilter id='s' x='-20%25' y='-20%25' width='140%25' height='140%25'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.009' numOctaves='2' seed='4' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 1 0 0 0 0'/%3E%3CfeGaussianBlur stdDeviation='4'/%3E%3C/filter%3E%3Crect width='900' height='900' filter='url(%23s)'/%3E%3C/svg%3E");
   --te-green:        #22B14C;   /* brand green — the single CTA colour */
   --te-green-dark:   #1A9540;   /* CTA hover */
   --te-green-ink:    #157A34;   /* green text on white (accessible) */
@@ -256,7 +255,6 @@ p{ margin:0; }
     radial-gradient(1100px 600px at 78% -10%, rgba(34,177,76,.20), transparent 60%),
     linear-gradient(180deg, #0E1A14 0%, #12241B 100%);
 }
-.hero .smoke-layer{ z-index:1; }
 .hero__inner{ position:relative; z-index:2; display:grid; grid-template-columns:1fr; gap:34px; padding-top:44px; padding-bottom:52px; }
 @media (min-width:960px){
   .hero__inner{ grid-template-columns:1.05fr .95fr; gap:48px; align-items:center; padding-top:64px; padding-bottom:72px; }
@@ -457,19 +455,6 @@ html.anim .reveal.is-in{ opacity:1; transform:none; }
 @media (max-width:900px){
   html.anim .reveal{ opacity:1 !important; transform:none !important; }
 }
-
-/* ---------- Drifting smoke (smoke-alarm theme) ----------
-   GPU-only: pre-softened texture moved with transform (no per-frame repaint,
-   no blur/blend animation), so it stays smooth. */
-.smoke-layer{ position:absolute; inset:0; overflow:hidden; pointer-events:none; contain:strict; }
-.deadline .smoke-layer, .final .smoke-layer, .footer .smoke-layer{ z-index:-1; }
-.smoke-layer i{ position:absolute; inset:-25%; background:var(--smoke-tex) center/cover no-repeat;
-  transform:translateZ(0); will-change:transform; backface-visibility:hidden; }
-.smoke-layer i:nth-child(1){ opacity:.13; animation:smokeA 42s ease-in-out infinite alternate; }
-.smoke-layer i:nth-child(2){ opacity:.08; animation:smokeB 63s ease-in-out infinite alternate; }
-@keyframes smokeA{ from{ transform:translate3d(-3%,1%,0) scale(1.06);} to{ transform:translate3d(4%,-2%,0) scale(1.16);} }
-@keyframes smokeB{ from{ transform:translate3d(3%,-1%,0) scale(1.12);} to{ transform:translate3d(-4%,2%,0) scale(1.02);} }
-@media (prefers-reduced-motion:reduce){ .smoke-layer i{ animation:none !important; } }
 </style>
 </head>
 <body>
@@ -532,7 +517,6 @@ html.anim .reveal.is-in{ opacity:1; transform:none; }
 
 <!-- ============================ 3. HERO + 4. QUOTE FORM ============================ -->
 <section class="hero" id="top">
-  <div class="smoke-layer" aria-hidden="true"><i></i><i></i></div>
   <div class="container">
     <div class="hero__inner">
       <div class="hero__copy">
@@ -638,7 +622,6 @@ html.anim .reveal.is-in{ opacity:1; transform:none; }
 
 <!-- ============================ 5. DEADLINE STRIP ============================ -->
 <section class="deadline" id="deadline">
-  <div class="smoke-layer" aria-hidden="true"><i></i><i></i></div>
   <div class="container">
     <div class="deadline__inner">
       <div>
@@ -865,7 +848,6 @@ html.anim .reveal.is-in{ opacity:1; transform:none; }
 
 <!-- ============================ 15. FINAL CTA ============================ -->
 <section class="section final" id="quote">
-  <div class="smoke-layer" aria-hidden="true"><i></i><i></i></div>
   <div class="container">
     <div class="final__grid">
       <div class="reveal">
@@ -949,7 +931,6 @@ html.anim .reveal.is-in{ opacity:1; transform:none; }
 
 <!-- ============================ 16. FOOTER ============================ -->
 <footer class="footer">
-  <div class="smoke-layer" aria-hidden="true"><i></i><i></i></div>
   <div class="container">
     <div class="footer__inner">
       <div>
