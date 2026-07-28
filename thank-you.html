@@ -11,8 +11,10 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-<!-- GTM placeholder (replace GTM-XXXXXXX and uncomment to activate) -->
-<script>window.dataLayer = window.dataLayer || []; window.dataLayer.push({ event: 'generate_lead', form_location: 'thank_you_page', method: 'redirect' });</script>
+<!-- Tracking config (shared with index.html). Loads GTM if configured. -->
+<script src="assets/config.js"></script>
+<!-- Fire the lead conversion on the thank-you page (GTM/GA4/Ads/Meta listen for this). -->
+<script>window.dataLayer.push({ event: 'generate_lead', form_location: 'thank_you_page', method: 'redirect' });</script>
 <style>
 :root{ --green:#22B14C; --green-ink:#157A34; --ink:#0E1A14; --muted:#55635C; --line:#E2EAE5; }
 *{ box-sizing:border-box; } html,body{ margin:0; }

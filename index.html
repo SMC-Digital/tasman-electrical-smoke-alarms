@@ -4,30 +4,8 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-<!-- =====================================================================
-     TASMAN ELECTRICAL — SETUP  (edit these two IDs, nothing else)
-     1) GTM_ID:      your Google Tag Manager container, e.g. "GTM-ABC1234".
-                     Leave "" to keep tracking dormant. GA4, Google Ads and
-                     the Meta Pixel are then managed inside GTM — no code edits.
-     2) FORMSPREE_ID: the id from your Formspree endpoint. If your form URL is
-                     https://formspree.io/f/xdorwkpl  then FORMSPREE_ID="xdorwkpl".
-                     Leave "" and the form falls back to emailing the enquiry.
-     ===================================================================== -->
-<script>
-  window.dataLayer = window.dataLayer || [];
-  window.TE_CONFIG = {
-    GTM_ID: "",          /* e.g. "GTM-ABC1234" */
-    FORMSPREE_ID: ""     /* e.g. "xdorwkpl"     */
-  };
-  /* Google Tag Manager loader — only runs when a real container id is set */
-  (function(w,d,s,l,i){
-    if(!i || i.indexOf("GTM-")!==0) return;
-    w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});
-    var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';
-    j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;
-    f.parentNode.insertBefore(j,f);
-  })(window,document,'script','dataLayer',window.TE_CONFIG.GTM_ID);
-</script>
+<!-- Tracking + form config. Edit the two IDs in assets/config.js (shared with thank-you.html). -->
+<script src="assets/config.js"></script>
 
 <title>Smoke Alarm Installation Brisbane | Tasman Electrical</title>
 <meta name="description" content="Get your Brisbane home ready for Queensland's 2027 smoke alarm deadline. Tasman Electrical installs and replaces interconnected photoelectric smoke alarms. Request a quote." />
@@ -252,7 +230,7 @@ p{ margin:0; }
 /* Mobile: lighter glow radius for performance + fit */
 @media (max-width:600px){ .brand img{ height:38px; } }
 @media (prefers-reduced-motion:reduce){
-  .brand img{ animation:none; filter:drop-shadow(0 0 3px rgba(34,177,76,.85)) drop-shadow(0 0 8px rgba(255,212,0,.3)); }
+  .brand img, .footer img{ animation:none; filter:drop-shadow(0 0 3px rgba(34,177,76,.85)) drop-shadow(0 0 8px rgba(255,212,0,.3)); }
 }
 .header__actions{ display:flex; align-items:center; gap:14px; }
 .header__phone{ display:none; font-family:var(--font-display); font-weight:700; color:#fff; align-items:center; gap:8px; }
@@ -437,7 +415,9 @@ p{ margin:0; }
 @media (min-width:768px){ .footer{ padding-bottom:56px; } }
 .footer__inner{ display:grid; grid-template-columns:1fr; gap:28px; }
 @media (min-width:768px){ .footer__inner{ grid-template-columns:1.4fr 1fr 1fr; } }
-.footer img{ height:52px; width:auto; margin-bottom:14px; }
+.footer img{ height:52px; width:auto; margin-bottom:14px;
+  filter:drop-shadow(0 0 2px rgba(34,177,76,.95)) drop-shadow(0 0 6px rgba(127,227,160,.7)) drop-shadow(0 0 12px rgba(255,212,0,.35));
+  animation:brandElec 1.9s linear infinite; will-change:filter; }
 .footer__tag{ font-family:var(--font-display); font-weight:600; color:#dfeee6; }
 .footer p{ font-size:.9rem; line-height:1.7; margin-top:8px; }
 .footer h4{ font-family:var(--font-display); color:#fff; font-size:.95rem; margin-bottom:12px; text-transform:uppercase; letter-spacing:.06em; }
