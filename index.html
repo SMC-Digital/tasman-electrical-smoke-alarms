@@ -216,9 +216,10 @@ p{ margin:0; }
 /* the SVG frame sits on the padding-box edge; a single bolt laps the wordmark */
 .elec-frame{ position:absolute; inset:0; width:100%; height:100%; overflow:visible; pointer-events:none; z-index:0; }
 .elec-frame rect{ fill:none; }
-/* the bolt — a bright spark that loops around the logo, no visible track */
-.wire-spark{ stroke:#eafff2; stroke-width:2.6; stroke-linecap:round; stroke-dasharray:8 92;
-  filter:drop-shadow(0 0 4px var(--te-yellow)) drop-shadow(0 0 8px var(--te-green)); animation:elecFlow 1.4s linear infinite; }
+/* the bolt — a tiny glowing particle (photon) tracing the logo, no visible track */
+.wire-spark{ stroke:#ffffff; stroke-width:3; stroke-linecap:round; stroke-dasharray:0.1 99.9;
+  filter:drop-shadow(0 0 2px #fff) drop-shadow(0 0 5px #a8f5c0) drop-shadow(0 0 9px var(--te-green)) drop-shadow(0 0 14px var(--te-yellow));
+  animation:elecFlow 1.8s linear infinite; }
 @keyframes elecFlow{ to{ stroke-dashoffset:-100; } }   /* pathLength=100 → one full lap per cycle */
 @media (prefers-reduced-motion:reduce){
   .wire-spark{ animation:none; opacity:.7; }
