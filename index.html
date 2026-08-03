@@ -372,7 +372,7 @@ p{ margin:0; }
 /* ---------- Why choose (split) ---------- */
 .why__grid{ display:grid; grid-template-columns:1fr; gap:34px; align-items:center; }
 @media (min-width:900px){ .why__grid{ grid-template-columns:.95fr 1.05fr; gap:48px; } }
-.why__media img{ width:100%; border-radius:var(--radius-lg); box-shadow:var(--shadow); aspect-ratio:4/5; object-fit:cover; }
+.why__media img{ width:100%; height:auto; border-radius:var(--radius-lg); box-shadow:var(--shadow); aspect-ratio:4/5; object-fit:cover; object-position:center; }
 @media (max-width:899px){ .why__media img{ aspect-ratio:16/10; } }
 .why__list{ list-style:none; margin:22px 0 0; padding:0; display:grid; grid-template-columns:1fr; gap:11px; }
 @media (min-width:560px){ .why__list{ grid-template-columns:1fr 1fr; } }
@@ -565,7 +565,7 @@ html.anim .reveal.is-in{ opacity:1; transform:none; }
             </div>
             <div class="field">
               <label for="h-phone">Phone <span class="req-star" aria-hidden="true">*</span></label>
-              <input type="tel" id="h-phone" name="phone" autocomplete="tel" inputmode="tel" required pattern="[0-9 ()+-]{8,}" />
+              <input type="tel" id="h-phone" name="phone" autocomplete="tel" inputmode="tel" required pattern="[0-9 \(\)+\-]{8,}" />
               <span class="err">Please enter a valid phone number.</span>
             </div>
             <div class="field">
@@ -883,7 +883,7 @@ html.anim .reveal.is-in{ opacity:1; transform:none; }
             </div>
             <div class="field">
               <label for="f-phone">Phone <span class="req-star" aria-hidden="true">*</span></label>
-              <input type="tel" id="f-phone" name="phone" autocomplete="tel" inputmode="tel" required pattern="[0-9 ()+-]{8,}" />
+              <input type="tel" id="f-phone" name="phone" autocomplete="tel" inputmode="tel" required pattern="[0-9 \(\)+\-]{8,}" />
               <span class="err">Please enter a valid phone number.</span>
             </div>
             <div class="field">
@@ -1138,7 +1138,7 @@ html.anim .reveal.is-in{ opacity:1; transform:none; }
           method:'POST', headers:{ 'Content-Type':'application/json', 'Accept':'application/json' },
           body: JSON.stringify(data)
         }).then(function(r){
-          if (r.ok){ window.location.href = 'thank-you.html'; }
+          if (r.ok){ window.location.href = 'thank-you/'; }
           else { resetBtn(); emailFallback(); }
         }).catch(function(){ resetBtn(); emailFallback(); });
       } else {
