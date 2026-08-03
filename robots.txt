@@ -2,4 +2,4 @@ User-agent: *
 Allow: /
 Disallow: /thank-you.html
 
-Sitemap: https://smokealarms.tasmanelectrical.com.au/sitemap.xml
+Sitemap: https://smc-digital.github.io/tasman-electrical-smoke-alarms/sitemap.xml
