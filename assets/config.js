@@ -12,8 +12,8 @@
                    Leave "" and the form emails the enquiry instead.
    ===================================================================== */
 window.TE_CONFIG = {
-  GTM_ID: "",          /* e.g. "GTM-ABC1234" */
-  FORMSPREE_ID: ""     /* e.g. "xdorwkpl"     */
+  GTM_ID: "GTM-TC9VP3R",   /* Tasman Electrical GTM container */
+  FORMSPREE_ID: ""         /* e.g. "xdorwkpl" */
 };
 
 /* --- do not edit below --- */
