@@ -430,7 +430,10 @@ p{ margin:0; }
 .footer__links{ list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:9px; font-size:.92rem; }
 .footer__links a{ display:inline-flex; align-items:center; gap:8px; }
 .footer__links svg{ width:16px; height:16px; color:var(--te-green); }
-.footer__bottom{ border-top:1px solid rgba(255,255,255,.08); margin-top:32px; padding-top:20px; font-size:.82rem; color:#8ba296; display:flex; flex-wrap:wrap; gap:8px 18px; justify-content:space-between; }
+.footer__bottom{ border-top:1px solid rgba(255,255,255,.08); margin-top:32px; padding-top:20px; font-size:.82rem; color:#8ba296; display:flex; flex-wrap:wrap; gap:8px 18px; justify-content:space-between; align-items:center; }
+.footer__built{ margin-left:auto; }
+.footer__built a{ color:#cbe4d6; font-weight:600; }
+.footer__built a:hover{ color:#fff; }
 
 /* ---------- Sticky mobile bar ---------- */
 .mobar{ position:fixed; left:0; right:0; bottom:0; z-index:120; display:grid; grid-template-columns:1fr 1fr; gap:0; background:var(--te-ink); border-top:1px solid rgba(255,255,255,.1); box-shadow:0 -6px 20px rgba(0,0,0,.22); }
@@ -966,6 +969,7 @@ html.anim .reveal.is-in{ opacity:1; transform:none; }
     <div class="footer__bottom">
       <span id="copyright">&copy; Tasman Electrical. All rights reserved.</span>
       <span>This page is general information only and is not formal legal advice.</span>
+      <span class="footer__built">Built by <a href="https://www.smcdigital.com.au" target="_blank" rel="noopener">SMC Digital</a></span>
     </div>
   </div>
 </footer>
